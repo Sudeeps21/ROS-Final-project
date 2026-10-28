@@ -1,0 +1,31 @@
+# Ground truth human positions for world: open_field
+# Frame: world (ENU, z up, ground at z=0)
+# These coordinates MUST match the <pose> values in worlds/open_field.sdf exactly.
+# Read by Member D (evaluator_node.py) for precision/recall computation.
+
+world: open_field
+humans:
+  - id: 1
+    x:  5.0
+    y:  8.0
+    label: standing
+  - id: 2
+    x: -10.0
+    y: -12.0
+    label: standing
+  - id: 3
+    x:  18.0
+    y:   3.0
+    label: walking
+  - id: 4
+    x: -22.0
+    y:  15.0
+    label: standing
+  - id: 5
+    x:  25.0
+    y: -20.0
+    label: standing
+  - id: 6
+    x:  -3.0
+    y:   5.0
+    label: walking

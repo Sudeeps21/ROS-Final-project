@@ -1,0 +1,251 @@
+<?xml version="1.0" ?>
+<!--
+  SAR World: open_field
+  Flat terrain, drone (X3 UAV with RGB camera), 6 humans (standing/lying/animated),
+  minimal vegetation for baseline S1 scenario.
+-->
+<sdf version="1.9">
+  <world name="open_field">
+
+    <!-- ======================== PHYSICS & PLUGINS ======================== -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system"         name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system"   name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-contact-system"         name="gz::sim::systems::Contact"/>
+    <plugin filename="gz-sim-sensors-system"         name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system"             name="gz::sim::systems::Imu"/>
+    <plugin filename="gz-sim-magnetometer-system"    name="gz::sim::systems::Magnetometer"/>
+    <plugin filename="gz-sim-air-pressure-system"    name="gz::sim::systems::AirPressure"/>
+
+    <!-- ======================== LIGHTING ======================== -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- ======================== GROUND PLANE ======================== -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>200 200</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>200 200</size></plane></geometry>
+          <material>
+            <ambient>0.38 0.55 0.22 1</ambient>
+            <diffuse>0.38 0.55 0.22 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ======================== SCATTERED ROCKS (open field) ======================== -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cinder Block</uri>
+      <name>rock_1</name><pose>8 12 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cinder Block</uri>
+      <name>rock_2</name><pose>-14 7 0 0 0 0.8</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cinder Block</uri>
+      <name>rock_3</name><pose>20 -5 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cinder Block</uri>
+      <name>rock_4</name><pose>-20 -18 0 0 0 1.2</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cinder Block</uri>
+      <name>rock_5</name><pose>15 25 0 0 0 0.5</pose>
+    </include>
+
+    <!-- ======================== HUMANS (6 total) ======================== -->
+    <!-- Human 1: Standing, open area -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>human_1</name><pose>5 8 0 0 0 0.3</pose>
+    </include>
+
+    <!-- Human 2: Standing, south sector -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>human_2</name><pose>-10 -12 0 0 0 1.5</pose>
+    </include>
+
+    <!-- Human 3: Walking person -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking person</uri>
+      <name>human_3</name><pose>18 3 0 0 0 -1.0</pose>
+    </include>
+
+    <!-- Human 4: Standing, NW quadrant -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>human_4</name><pose>-22 15 0 0 0 2.1</pose>
+    </include>
+
+    <!-- Human 5: Standing, SE quadrant -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>human_5</name><pose>25 -20 0 0 0 -0.5</pose>
+    </include>
+
+    <!-- Human 6: Walking, near center -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking person</uri>
+      <name>human_6</name><pose>-3 5 0 0 0 0.9</pose>
+    </include>
+
+    <!-- ======================== X3 DRONE ======================== -->
+    <model name="X3">
+      <pose>0 0 0.2 0 0 0</pose>
+
+      <link name="base_link">
+        <inertial>
+          <mass>1.5</mass>
+          <inertia>
+            <ixx>0.029125</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.029125</iyy><iyz>0</iyz>
+            <izz>0.055225</izz>
+          </inertia>
+        </inertial>
+
+        <!-- Drone body visual -->
+        <visual name="body_visual">
+          <geometry>
+            <box><size>0.47 0.47 0.11</size></box>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <diffuse>0.3 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+        <collision name="body_collision">
+          <geometry>
+            <box><size>0.47 0.47 0.11</size></box>
+          </geometry>
+        </collision>
+
+        <!-- ====== RGB CAMERA SENSOR (640x480, 15 Hz, FOV~1.2 rad) ====== -->
+        <!-- Mount: x=0.1 y=0 z=-0.05, pitched down 60° (1.047 rad) -->
+        <sensor name="camera" type="camera">
+          <pose>0.1 0 -0.05 0 1.047 0</pose>
+          <topic>/camera</topic>
+          <update_rate>15</update_rate>
+          <camera>
+            <horizontal_fov>1.2</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>300</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+        </sensor>
+
+        <!-- Camera info published alongside -->
+        <sensor name="camera_info" type="camera">
+          <pose>0.1 0 -0.05 0 1.047 0</pose>
+          <topic>/camera_info</topic>
+          <update_rate>15</update_rate>
+          <camera>
+            <horizontal_fov>1.2</horizontal_fov>
+            <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+            <clip><near>0.1</near><far>300</far></clip>
+          </camera>
+        </sensor>
+
+        <!-- IMU -->
+        <sensor name="imu_sensor" type="imu">
+          <topic>/imu</topic>
+          <update_rate>250</update_rate>
+        </sensor>
+
+        <!-- Air pressure (altitude estimate) -->
+        <sensor name="air_pressure" type="air_pressure">
+          <topic>/air_pressure</topic>
+          <update_rate>50</update_rate>
+        </sensor>
+
+      </link>
+
+      <!-- ====== MULTICOPTER VELOCITY CONTROL PLUGIN ====== -->
+      <plugin filename="gz-sim-multicopter-motor-model-system"
+              name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3</robotNamespace>
+        <jointName>rotor_0_joint</jointName>
+        <linkName>rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>1000.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <motorNumber>0</motorNumber>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+      </plugin>
+
+      <plugin filename="gz-sim-multicopter-control-system"
+              name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <maximumLinearVelocity>3 3 3</maximumLinearVelocity>
+        <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+        <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
+        <linearVelocityNoiseStdDev>0.1105 0.1261 0.1204</linearVelocityNoiseStdDev>
+        <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>
+        <angularVelocityNoiseStdDev>0.008 0.008 0.004</angularVelocityNoiseStdDev>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+
+      <!-- ====== ODOMETRY PUBLISHER PLUGIN ====== -->
+      <plugin filename="gz-sim-odometry-publisher-system"
+              name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>world</odom_frame>
+        <robot_base_frame>X3/base_link</robot_base_frame>
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>/model/X3/odometry</odom_topic>
+      </plugin>
+
+    </model><!-- end X3 -->
+
+  </world>
+</sdf>

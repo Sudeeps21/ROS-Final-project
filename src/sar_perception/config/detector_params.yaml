@@ -1,0 +1,24 @@
+/**:
+  ros__parameters:
+    # Path to YOLO model file.
+    # 'yolov8n.pt' is auto-downloaded from Ultralytics on first run.
+    # For a fine-tuned sim model, set this to the absolute path of your .pt file.
+    model_path: "yolov8n.pt"
+
+    # Detection confidence threshold [0–1].
+    # Lower = more detections (higher recall, lower precision).
+    # Default 0.35 is a good starting point; fine-tune after evaluating on sim images.
+    conf: 0.35
+
+    # NMS IoU threshold [0–1].
+    iou: 0.50
+
+    # Inference image size (pixels). Must be a multiple of 32.
+    # 640 is standard YOLOv8n input. Reduce to 320 on slow hardware.
+    imgsz: 640
+
+    # Compute device: 'cpu', 'cuda:0', 'mps' (Mac)
+    device: "cpu"
+
+    # Maximum inference rate. Frames are skipped if camera is faster.
+    max_rate_hz: 15.0

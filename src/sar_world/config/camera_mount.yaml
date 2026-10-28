@@ -1,0 +1,31 @@
+# Camera mount configuration shared between Member A (world) and Member D (geolocation).
+# Frame convention: camera is mounted on the drone body.
+# DO NOT change these values without team agreement — they affect geolocation math.
+
+camera_mount:
+  # Translation from drone body origin (base_link) to camera optical frame, in meters
+  xyz: [0.1, 0.0, -0.05]   # x forward, y left, z up (ENU body frame)
+
+  # Rotation: pitch only (pitched DOWN by 60 degrees = 1.047 rad)
+  # rpy: roll=0, pitch=1.047, yaw=0
+  rpy: [0.0, 1.047, 0.0]
+
+# Camera intrinsics (computed from SDF: width=640, height=480, hfov=1.2 rad)
+# fx = (width/2) / tan(hfov/2) = 320 / tan(0.6) ≈ 457.0
+# fy = fx  (square pixels)
+# cx = width/2  = 320
+# cy = height/2 = 240
+camera_intrinsics:
+  width: 640
+  height: 480
+  horizontal_fov: 1.2   # radians
+  fx: 457.0
+  fy: 457.0
+  cx: 320.0
+  cy: 240.0
+  # Distortion (negligible for Gazebo ideal lens)
+  k1: 0.0
+  k2: 0.0
+  p1: 0.0
+  p2: 0.0
+  k3: 0.0

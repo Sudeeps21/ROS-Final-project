@@ -1,0 +1,39 @@
+# Ground truth human positions for world: dense_trees
+# Frame: world (ENU, z up, ground at z=0)
+# These coordinates MUST match the <pose> values in worlds/dense_trees.sdf exactly.
+# Read by Member D (evaluator_node.py) for precision/recall computation.
+
+world: dense_trees
+humans:
+  - id: 1
+    x: -14.5
+    y:   9.5
+    label: standing_under_tree
+  - id: 2
+    x: -11.5
+    y:  -2.5
+    label: standing_under_tree
+  - id: 3
+    x:   6.0
+    y:   1.0
+    label: walking_between_trees
+  - id: 4
+    x:  15.5
+    y: -18.5
+    label: standing_under_tree
+  - id: 5
+    x:  11.0
+    y:  -9.0
+    label: standing
+  - id: 6
+    x:  -9.5
+    y:  22.0
+    label: standing_under_tree
+  - id: 7
+    x: -22.0
+    y: -20.0
+    label: walking
+  - id: 8
+    x:  24.5
+    y:  -7.5
+    label: standing_edge_tree

@@ -1,0 +1,31 @@
+# Ground truth human positions for world: sparse_trees
+# Frame: world (ENU, z up, ground at z=0)
+# These coordinates MUST match the <pose> values in worlds/sparse_trees.sdf exactly.
+# Read by Member D (evaluator_node.py) for precision/recall computation.
+
+world: sparse_trees
+humans:
+  - id: 1
+    x:  10.8
+    y:   5.0
+    label: standing_near_tree
+  - id: 2
+    x:  -5.0
+    y:  -3.0
+    label: standing
+  - id: 3
+    x: -17.0
+    y: -14.0
+    label: walking_near_tree
+  - id: 4
+    x:  25.5
+    y:  12.5
+    label: standing_near_tree
+  - id: 5
+    x: -24.0
+    y:  10.0
+    label: standing
+  - id: 6
+    x:   2.0
+    y: -25.0
+    label: walking

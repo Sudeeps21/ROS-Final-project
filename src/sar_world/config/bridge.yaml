@@ -1,0 +1,43 @@
+# ros_gz_bridge parameter_bridge configuration
+# Maps Gazebo Harmonic topics to ROS 2 topic names per the interface contract.
+# Owned by Member A. Do NOT change topic names without team-wide agreement.
+
+- ros_topic_name: /clock
+  gz_topic_name: /clock
+  ros_type_name: rosgraph_msgs/msg/Clock
+  gz_type_name: gz.msgs.Clock
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /camera/image_raw
+  gz_topic_name: /camera
+  ros_type_name: sensor_msgs/msg/Image
+  gz_type_name: gz.msgs.Image
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /camera/camera_info
+  gz_topic_name: /camera_info
+  ros_type_name: sensor_msgs/msg/CameraInfo
+  gz_type_name: gz.msgs.CameraInfo
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /odom
+  gz_topic_name: /model/X3/odometry
+  ros_type_name: nav_msgs/msg/Odometry
+  gz_type_name: gz.msgs.Odometry
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /cmd_vel
+  gz_topic_name: /X3/gazebo/command/twist
+  ros_type_name: geometry_msgs/msg/Twist
+  gz_type_name: gz.msgs.Twist
+  direction: ROS_TO_GZ
+
+- ros_topic_name: /drone/enable
+  gz_topic_name: /X3/enable
+  ros_type_name: std_msgs/msg/Bool
+  gz_type_name: gz.msgs.Boolean
+  direction: ROS_TO_GZ
+
+# NOTE: If actual Gazebo plugin topics differ from the above, run:
+#   gz topic -l
+# and update ONLY the gz_topic_name fields. Do not change ros_topic_name.

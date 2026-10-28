@@ -1,0 +1,32 @@
+# mission.yaml — owned by Member B; placed here as a stub by Member A.
+# DO NOT change survey parameters without team agreement — they affect lawnmower planner,
+# camera footprint calculation, geolocation math, and coverage estimation.
+
+mission:
+  # Search area: 60 x 60 m centered at origin (world frame, ENU)
+  area_size_x: 60.0      # metres
+  area_size_y: 60.0      # metres
+  area_center: [0.0, 0.0]  # [x, y]
+
+  # Survey altitude (m AGL)
+  altitude: 10.0
+
+  # Maximum horizontal speed (m/s)
+  speed_horizontal: 2.0
+  # Maximum vertical speed (m/s)
+  speed_vertical: 1.0
+
+  # Lawnmower row overlap fraction (0–1)
+  # 0.3 means 30% overlap between adjacent camera footprints
+  overlap: 0.3
+
+  # Home position (where the drone spawns and returns to land)
+  home: [0.0, 0.0]
+
+  # Safety
+  geofence_margin: 5.0   # metres outside area_size before abort triggers
+  waypoint_timeout: 30.0  # seconds before skipping to next waypoint
+  altitude_floor: 1.5     # metres — emergency land if below this
+
+  # State machine
+  takeoff_altitude: 10.0  # must match altitude
