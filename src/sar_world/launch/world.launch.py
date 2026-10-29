@@ -65,14 +65,14 @@ def generate_launch_description():
 
     # ── Gazebo with GUI (default) ─────────────────────────────────────────
     gz_sim_gui = ExecuteProcess(
-        cmd=["gz", "sim", world_sdf],
+        cmd=["gz", "sim", "-r", world_sdf],
         output="screen",
         condition=UnlessCondition(headless_lc),
     )
 
     # ── Gazebo headless ────────────────────────────────────────────────────
     gz_sim_headless = ExecuteProcess(
-        cmd=["gz", "sim", "-s", world_sdf],  # -s = server-only, no GUI
+        cmd=["gz", "sim", "-s", "-r", world_sdf],  # -s = server-only, -r = run immediately
         output="screen",
         condition=IfCondition(headless_lc),
     )
@@ -82,8 +82,10 @@ def generate_launch_description():
         package="ros_gz_bridge",
         executable="parameter_bridge",
         name="ros_gz_bridge",
-        arguments=["--ros-args", "--params-file", bridge_yaml],
-        parameters=[{"use_sim_time": True}],
+        parameters=[{
+            "config_file": bridge_yaml,
+            "use_sim_time": True,
+        }],
         output="screen",
     )
 

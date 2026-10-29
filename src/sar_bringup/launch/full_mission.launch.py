@@ -8,7 +8,7 @@ Starts the complete SAR pipeline:
 
 Usage:
   ros2 launch sar_bringup full_mission.launch.py world:=sparse_trees
-  ros2 launch sar_bringup full_mission.launch.py world:=open_field headless:=true
+  ros2 launch sar_bringup full_mission.launch.py world:=open_field headless:=true rviz:=false
 
 NOTE TO TEAM:
   Each member contributes their own IncludeLaunchDescription snippet below.
@@ -38,9 +38,15 @@ def generate_launch_description():
         default_value="false",
         description="Run Gazebo headless (true for batch experiments)",
     )
+    rviz_arg = DeclareLaunchArgument(
+        "rviz",
+        default_value="true",
+        description="Launch RViz2 visualization",
+    )
 
     world_lc    = LaunchConfiguration("world")
     headless_lc = LaunchConfiguration("headless")
+    rviz_lc     = LaunchConfiguration("rviz")
 
     # ════════════════════════════════════════════════════════════════════════
     # MEMBER A — Simulation World + Bridge
@@ -73,33 +79,40 @@ def generate_launch_description():
     )
 
     # ════════════════════════════════════════════════════════════════════════
-    # MEMBER C — Human Detector  [C fills in below]
+    # MEMBER C — Human Detector
     # ════════════════════════════════════════════════════════════════════════
-    # sar_perception_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(
-    #             get_package_share_directory("sar_perception"),
-    #             "launch", "detector.launch.py",
-    #         )
-    #     ),
-    # )
+    sar_perception_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("sar_perception"),
+                "launch", "detector.launch.py",
+            )
+        ),
+        launch_arguments={"use_sim_time": "true"}.items(),
+    )
 
     # ════════════════════════════════════════════════════════════════════════
-    # MEMBER D — Geolocator + Evaluator + RViz  [D fills in below]
+    # MEMBER D — Geolocator + Evaluator + RViz
     # ════════════════════════════════════════════════════════════════════════
-    # sar_mapping_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(
-    #             get_package_share_directory("sar_mapping"),
-    #             "launch", "mapping.launch.py",
-    #         )
-    #     ),
-    # )
+    sar_mapping_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("sar_mapping"),
+                "launch", "mapping.launch.py",
+            )
+        ),
+        launch_arguments={
+            "world": world_lc,
+            "use_sim_time": "true",
+            "rviz": rviz_lc,
+        }.items(),
+    )
 
-    # ── Assemble (enable other members' sections once their packages build) ──
+    # ── Assemble ─────────────────────────────────────────────────────────────
     return LaunchDescription([
         world_arg,
         headless_arg,
+        rviz_arg,
 
         # A: world first (no delay)
         sar_world_launch,
@@ -108,8 +121,8 @@ def generate_launch_description():
         TimerAction(period=5.0, actions=[sar_mission_launch]),
 
         # C: detector — after bridge is up
-        # TimerAction(period=6.0, actions=[sar_perception_launch]),
+        TimerAction(period=6.0, actions=[sar_perception_launch]),
 
         # D: mapping — after detector
-        # TimerAction(period=7.0, actions=[sar_mapping_launch]),
+        TimerAction(period=7.0, actions=[sar_mapping_launch]),
     ])

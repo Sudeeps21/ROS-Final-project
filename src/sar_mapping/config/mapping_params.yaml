@@ -1,0 +1,31 @@
+/**:
+  ros__parameters:
+    # Camera mount relative to drone base_link
+    mount_xyz: [0.1, 0.0, -0.05]
+    mount_rpy: [0.0, 1.047, 0.0]  # pitch down 60 deg (1.047 rad)
+
+    # Fallback camera intrinsics if /camera/camera_info is delayed
+    camera_width: 640
+    camera_height: 480
+    fx: 457.0
+    fy: 457.0
+    cx: 320.0
+    cy: 240.0
+
+    # Tracking & clustering
+    merge_dist_m: 1.5        # Distance threshold to merge into existing candidate (m)
+    confirm_count: 2         # Minimum detections required to confirm a human
+    max_range_m: 40.0        # Max ray intersection distance from camera (m)
+    ground_z: 0.0            # Ground plane z-level (m)
+
+    # Coverage estimation
+    area_size_x: 60.0        # Search area width (m)
+    area_size_y: 60.0        # Search area height (m)
+    area_center: [0.0, 0.0]  # [x, y]
+    coverage_grid_res: 1.0   # Grid cell size (m)
+    coverage_step_frames: 5  # Compute footprint every N frames
+
+    # Evaluation
+    match_threshold_m: 2.5   # Maximum distance to match detection to ground truth (m)
+    results_path: "results/runs.csv"
+
